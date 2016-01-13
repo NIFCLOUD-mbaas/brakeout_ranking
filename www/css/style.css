@@ -1,0 +1,43 @@
+@font-face {
+    font-family: vt;
+    src: url(../res/VT323-Regular.ttf) format("truetype");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+span.invisible {
+    display: none;
+}
+
+body {
+    background-color:black;
+} 
+
+canvas {
+    -webkit-transform-origin: 0 0;   
+    -moz-transform-origin: 0 0; 
+    transform-origin: 0 0; 
+}
+
+.ranking{
+    display: none;
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    color: #fff;
+    background: #000;
+    text-align: center;
+    z-index: 3;
+}
+
+.rankingTable{
+    margin: 10px 0;
+}
