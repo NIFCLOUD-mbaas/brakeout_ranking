@@ -4,72 +4,36 @@ var ncmbController = {
 
     ncmb: null,
 
-    // åˆæœŸåŒ–
+    // ‰Šú‰»
     init: function(screenSize) {
         var self = this;
-        self.ncmb = new NCMB(self.APPLICATION_KEY, self.CLIENT_KEY);    // mobile backendã®åˆæœŸåŒ–
-        //é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’è¦å®š
+        self.ncmb = new NCMB(self.APPLICATION_KEY, self.CLIENT_KEY);    // mobile backend‚Ì‰Šú‰»
+        //•Â‚¶‚éƒ{ƒ^ƒ“‚Ì“®ì‚ğ‹K’è
         document.getElementById("closeRanking").addEventListener("click", function () {
             self.closeRanking();
         });
     },
-    // ã‚¹ã‚³ã‚¢é€ä¿¡
+    // ƒXƒRƒA‘—M
     sendScore: function(score) {
         var self = this;
     
-        // [1]Scoreï¼ˆã‚¯ãƒ©ã‚¹ï¼‰ã‚’ç”Ÿæˆ
-        var Score = self.ncmb.DataStore("ScoreClass");
+        // ScoreiƒNƒ‰ƒXj‚ğ¶¬
         
-        var username = localStorage.getItem("username");
-        if (username === null || username === "") {
-            username = prompt("ãƒ¦ãƒ¼ã‚¶åã‚’æŒ‡å®šã—ã¦ãã ã•ã„");
-            localStorage.setItem("username", username);
-        }
-        // [2]ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã€ã‚¹ã‚³ã‚¢æ•°å€¤ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å"score"ã«ã‚»ãƒƒãƒˆ
-        var scoreData = new Score({score: score, username: username});
-    
-        // [3]é€ä¿¡å‡¦ç†
-        scoreData.save()
-            .then(function (saved) {
-                Score.greaterThan("score", score)
-                    .count()    // ä»¶æ•°ã‚’çµæœã«å«ã‚ã‚‹
-                    .fetchAll()
-                    .then(function(scores){
-                        // countã®çµæœã¯ã€å–å¾—ãƒ‡ãƒ¼ã‚¿scoresã®countãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«å«ã¾ã‚Œã‚‹
-                
-                        // 0ä»¶ã®ã¨ãæ­£ã—ãå‹•ä½œã™ã‚‹ã‚ˆã†ã«æ¡ä»¶åˆ†å²
-                        var rank = (scores.count !== undefined) ? parseInt(scores.count) + 1 : 1;
-                
-                        // ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤º
-                        if(typeof navigator.notification !== 'undefined'){
-                            navigator.notification.alert(
-                                "ä»Šå›ã®é †ä½ã¯ #" + rank + " ã§ã—ãŸï¼",
-                                function(){},
-                                "ã‚¹ã‚³ã‚¢é€ä¿¡å®Œäº†ï¼"
-                                );
-                        } else {
-                            alert("ã‚¹ã‚³ã‚¢é€ä¿¡å®Œäº†ï¼\nä»Šå›ã®é †ä½ã¯ #" + rank + " ã§ã—ãŸï¼");
-                        }
-                    })
-            })
-           .catch(function(err){
-                console.log(err);
-            });
     },
     showRanking: function() {
         var self = this;
     
-        //ã‚¹ã‚³ã‚¢æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã€ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆ
+        //ƒXƒRƒAî•ñ‚ğæ“¾‚·‚é‚½‚ßAƒNƒ‰ƒX‚ğì¬
         var Score = self.ncmb.DataStore("ScoreClass");
     
-        //ã‚¹ã‚³ã‚¢ã‚’é™é †ã«10ä»¶å–å¾—
+        //ƒXƒRƒA‚ğ~‡‚É10Œæ“¾
         Score.order("score", true)
             .include("user")
             .limit(10)
             .fetchAll()
             .then(function(results){
         
-                //ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ã®HTMLç”Ÿæˆ
+                //ƒ‰ƒ“ƒLƒ“ƒO•\‚ÌHTML¶¬
                 var tableSource = "";
                 if(results.length > 0){
                     for(i=0; i<results.length; i++){
@@ -84,18 +48,18 @@ var ncmbController = {
                             + " (" + value + ")</li>";
                     }
                 } else {
-                    tableSource += "<li class=\"list__item list__item--inset\">ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã¯ã‚ã‚Šã¾ã›ã‚“</li>";
+                    tableSource += "<li class=\"list__item list__item--inset\">ƒ‰ƒ“ƒLƒ“ƒO‚Í‚ ‚è‚Ü‚¹‚ñ</li>";
                 }
                 document.getElementById("rankingTable").innerHTML = tableSource;
                 // $("#").html(tableSource);
-                //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹
+                //ƒ‰ƒ“ƒLƒ“ƒO‰æ–Ê‚ğ•\¦‚·‚é
                 document.getElementById("ranking").style.display = 'block';
             })
             .catch(function(err){
               console.log(err);
             });
     },
-    //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ç”»é¢ã‚’é–‰ã˜ã‚‹
+    //ƒ‰ƒ“ƒLƒ“ƒO‰æ–Ê‚ğ•Â‚¶‚é
     closeRanking:function() {
         document.getElementById("ranking").style.display = 'none';
     }
