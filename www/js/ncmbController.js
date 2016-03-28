@@ -4,36 +4,36 @@ var ncmbController = {
 
     ncmb: null,
 
-    // ‰Šú‰»
+    // åˆæœŸåŒ–
     init: function(screenSize) {
         var self = this;
-        self.ncmb = new NCMB(self.APPLICATION_KEY, self.CLIENT_KEY);    // mobile backend‚Ì‰Šú‰»
-        //•Â‚¶‚éƒ{ƒ^ƒ“‚Ì“®ì‚ğ‹K’è
+        self.ncmb = new NCMB(self.APPLICATION_KEY, self.CLIENT_KEY);    // mobile backendã®åˆæœŸåŒ–
+        //é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³ã®å‹•ä½œã‚’è¦å®š
         document.getElementById("closeRanking").addEventListener("click", function () {
             self.closeRanking();
         });
     },
-    // ƒXƒRƒA‘—M
+    // ã‚¹ã‚³ã‚¢é€ä¿¡
     sendScore: function(score) {
         var self = this;
     
-        // ScoreiƒNƒ‰ƒXj‚ğ¶¬
+        // Scoreï¼ˆã‚¯ãƒ©ã‚¹ï¼‰ã‚’ç”Ÿæˆ
         
     },
     showRanking: function() {
         var self = this;
     
-        //ƒXƒRƒAî•ñ‚ğæ“¾‚·‚é‚½‚ßAƒNƒ‰ƒX‚ğì¬
+        //ã‚¹ã‚³ã‚¢æƒ…å ±ã‚’å–å¾—ã™ã‚‹ãŸã‚ã€ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆ
         var Score = self.ncmb.DataStore("ScoreClass");
     
-        //ƒXƒRƒA‚ğ~‡‚É10Œæ“¾
+        //ã‚¹ã‚³ã‚¢ã‚’é™é †ã«10ä»¶å–å¾—
         Score.order("score", true)
             .include("user")
             .limit(10)
             .fetchAll()
             .then(function(results){
         
-                //ƒ‰ƒ“ƒLƒ“ƒO•\‚ÌHTML¶¬
+                //ãƒ©ãƒ³ã‚­ãƒ³ã‚°è¡¨ã®HTMLç”Ÿæˆ
                 var tableSource = "";
                 if(results.length > 0){
                     for(i=0; i<results.length; i++){
@@ -48,18 +48,18 @@ var ncmbController = {
                             + " (" + value + ")</li>";
                     }
                 } else {
-                    tableSource += "<li class=\"list__item list__item--inset\">ƒ‰ƒ“ƒLƒ“ƒO‚Í‚ ‚è‚Ü‚¹‚ñ</li>";
+                    tableSource += "<li class=\"list__item list__item--inset\">ãƒ©ãƒ³ã‚­ãƒ³ã‚°ã¯ã‚ã‚Šã¾ã›ã‚“</li>";
                 }
                 document.getElementById("rankingTable").innerHTML = tableSource;
                 // $("#").html(tableSource);
-                //ƒ‰ƒ“ƒLƒ“ƒO‰æ–Ê‚ğ•\¦‚·‚é
+                //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ç”»é¢ã‚’è¡¨ç¤ºã™ã‚‹
                 document.getElementById("ranking").style.display = 'block';
             })
             .catch(function(err){
               console.log(err);
             });
     },
-    //ƒ‰ƒ“ƒLƒ“ƒO‰æ–Ê‚ğ•Â‚¶‚é
+    //ãƒ©ãƒ³ã‚­ãƒ³ã‚°ç”»é¢ã‚’é–‰ã˜ã‚‹
     closeRanking:function() {
         document.getElementById("ranking").style.display = 'none';
     }
